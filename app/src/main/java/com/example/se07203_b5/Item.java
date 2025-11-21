@@ -3,6 +3,7 @@ package com.example.se07203_b5;
 import androidx.annotation.NonNull;
 
 public class Item {
+    private long id; // kiểu dữ liệu int, accessible private - không thể truy cập từ bên ngoài
     private String ItemName; // kiểu dữ liệu String, accessible private - không thể truy cập từ bên ngoài
     private int Quantity; // kiểu dữ liệu int, accessible private - không thể truy cập từ bên ngoài
     private int unitPrice = 0; // kiểu dữ liệu int, accessible private - không thể truy cập từ bên ngoài
@@ -19,6 +20,13 @@ public class Item {
         ItemName = _itemName;
         Quantity = _quantity;
         unitPrice = _unitPrice;
+    }
+
+    public Item (long id, String name, int quantity, int unitPrice){
+        this.id = id;
+        this.ItemName = name;
+        this.Quantity = quantity;
+        this.unitPrice = unitPrice;
     }
     // Hàm toString trả về chuỗi thông tin của sản phẩm
     @NonNull
@@ -48,6 +56,10 @@ public class Item {
 
     public void setQuantity(int quantity){
         Quantity = quantity;
+    }
+
+    public long getId(){
+        return id;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.se07203_b5;
 import java.util.ArrayList;
 
 public class AppData {
+    static boolean isLogin = false;
     static ArrayList<String> ListTask = new ArrayList<String>();
 
     static ArrayList<Item> ListItem = new ArrayList<Item>();

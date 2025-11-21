@@ -72,10 +72,10 @@
         </ListView>
 
         <Button
-            android:id="@+id/btnShow"
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Show" />
+            android:text="Logout" />
 
     </LinearLayout>
 

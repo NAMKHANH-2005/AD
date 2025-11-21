@@ -1,10 +1,12 @@
 package com.example.se07203_b5;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +18,17 @@ public class CreateNewTaskActivity extends AppCompatActivity {
     Boolean isEditMode = false;
     int position = -1;
 
+    SharedPreferences sharedPreferences;
+
     EditText edtItemName, edtQuantity, edtUnitPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_new_task);
+
+        sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+
         btnSubmitCreate = findViewById(R.id.btnSubmitCreate);
         btnBackToMain = findViewById(R.id.btnBackToMain);
         edtItemName = findViewById(R.id.edtItemName);
@@ -98,9 +105,22 @@ public class CreateNewTaskActivity extends AppCompatActivity {
             return;
         }else {
             Item item = new Item(itemName, quantity, unitPrice);
-            AppData.ListItem.add(item);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            long userId = sharedPreferences.getLong("user_id", -1);
+            if (userId > 0){
+                long resultId = databaseHelper.addProduct(item, userId);
+                if (resultId <= 0){
+                    Toast.makeText(this, "Error add product (item) to database", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                AppData.ListItem.add(item);
+                Toast.makeText(this, "Add product successfully (Id = " + resultId + ")", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this, "Error get userId", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
